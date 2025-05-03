@@ -5,7 +5,7 @@ This project implements a graph-based learning framework to model and interpret 
 ---
 
 <p align="center">
-  <img src="Figure/Graphic_abstract.png" alt="Graphical Abstract" width="600"/>
+  <img src="Figure/Graphic_abstract.png" alt="Graphical Abstract" width="300"/>
 </p>
 
 ---
