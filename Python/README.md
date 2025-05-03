@@ -1,6 +1,6 @@
 # 🧪 Python Scripts for Graph-Based Uyghur Medicine Modeling
 
-This folder contains three Jupyter notebooks that implement the core workflow of the project **"Graph-based Encoding and Analysis of Uyghur Medicinal Prescriptions using GAT Networks"**.
+This folder contains three Jupyter notebooks that implement the core workflow of the project **"Quantifying compatibility mechanisms in Uyghur medicine with interpretable graph neural networks"**.
 
 Each notebook corresponds to a distinct stage in the pipeline: from graph construction to GNN-based prediction and final attention-driven analysis.
 
