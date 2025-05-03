@@ -1,0 +1,4 @@
+ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
+WARNING:Comm:No such comm: 926eedd6-f5ad-4cbc-8dac-c5d50b0c2dff
+ERROR:ipykernel.comm:No such comm target registered: jupyter.widget.control
+WARNING:Comm:No such comm: 6c0aac40-3206-4886-b55c-801c525db876
