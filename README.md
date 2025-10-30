@@ -19,6 +19,18 @@ This project implements a graph-based learning framework to model and interpret 
 
 ---
 
+### Recommended Environment
+- Python 3.10+
+- PyTorch 2.7.1 (tested with CPU version; GPU version also compatible)
+- Torch Geometric 2.6.1
+- Scikit-learn 1.7.0
+- Numpy 2.3.0
+- Pandas 2.3.0
+- Scipy 1.15.3
+- Matplotlib 3.10.3
+- tqdm 4.67.1
+
+
 ## 📁 Project Structure
 
 | Folder          | Contents |
