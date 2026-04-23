@@ -2,36 +2,46 @@
 
 This file summarizes the minimum set of files and steps required to reproduce the current repository version.
 
-## Core Reproducibility Artifacts
+## Core Stored Artifacts
 
-The following files are already included in the repository and are intended to support peer reproduction of the current stored workflow:
+### Training / validation side
 
-- `Data/all_graphs_to_be_predicted.pt`
-  Serialized graph dataset used by the original notebook workflow
+- `Data/training_graphs_with_labels.pt`
+  Canonical labeled graph tensor for the stored training workflow
 
 - `Data/gat_model.pth`
-  Previously generated trained model artifact kept with this repository version
+  Previously trained GAT model artifact
 
-- `Data/prediction_outputs.tsv`
-  Stored prediction output from the completed run
+### Prediction side
 
-- `Data/attention_weights.tsv`
-  Raw attention export from the completed run
+- `Data/example_prescription_input.xlsx`
+  Example prescription input file
 
-- `Data/attention_averages.tsv`
-  Layer-wise averaged attention values
+- `Data/prescriptions_to_predict.pt`
+  Graph tensor generated from the example Excel input
 
-- `Data/calculated_attention_weights.tsv`
-  Final propagated compatibility scores
+- `Data/prescription_prediction_outputs.tsv`
+  Prediction output exported from the stored example prediction run
+
+- `Data/prescription_attention_weights.tsv`
+  Attention output exported from the stored example prediction run
 
 ## Reproduction Paths
 
-There are two reproduction paths for peers:
+There are three practical reproduction paths:
 
-1. Artifact-based reproduction
-   Use the stored `.pt`, `.pth`, and `.tsv` files directly to inspect the existing model artifact and downstream interpretability outputs.
+1. Artifact-based inspection  
+   Use the committed `.pt`, `.pth`, and `.tsv` files directly.
 
-2. Notebook rerun reproduction
+2. Script-based prediction reproduction  
+   Recreate the prediction path from Excel input:
+
+   ```powershell
+   python scripts/generate_prediction_graphs.py --input-excel Data/example_prescription_input.xlsx --output-pt Data/prescriptions_to_predict.pt
+   python scripts/run_gat_prediction.py --graph-pt Data/prescriptions_to_predict.pt --model-path Data/gat_model.pth --prediction-output Data/prescription_prediction_outputs.tsv --attention-output Data/prescription_attention_weights.tsv
+   ```
+
+3. Legacy notebook rerun reproduction  
    Re-execute the notebooks in order from `Python/`:
    - `1_Graph Embedding in UHF.ipynb`
    - `2_Prediction Using the GAT Model.ipynb`
@@ -43,11 +53,9 @@ There are two reproduction paths for peers:
 - Keep `Data/` at exactly `../Data`
 - Keep `Figure/` at exactly `../Figure` when generating visual outputs
 
-## Scope Note
+## Important Scope Note
 
-This reproducibility guide applies to the current repository snapshot only.
-
-- It refers to the original stored workflow
-- It does not describe the later paper-upgrade experiments
-- It does not claim to package every later draft-stage model variant
-
+- `training_graphs_with_labels.pt` is the canonical labeled tensor for training / validation
+- `prescriptions_to_predict.pt` is the canonical unlabeled tensor for inference
+- `all_graphs_to_be_predicted.pt` is retained only as a legacy filename for compatibility with the original notebooks
+- This guide applies to the current repository snapshot only

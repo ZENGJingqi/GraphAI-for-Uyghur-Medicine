@@ -2,54 +2,65 @@
 
 This folder contains both source tables and generated artifacts used by the Uyghur medicine GAT workflow.
 
-The files in this folder belong to the earlier completed project version that is currently being preserved in the repository.
+## Canonical Training Files
+
+- `training_graphs_with_labels.pt`
+  Canonical labeled graph tensor for training and validation
+
+- `gat_model.pth`
+  Previously trained GAT model weights
+
+## Canonical Prediction Files
+
+- `example_prescription_input.xlsx`
+  Example Excel input for user-provided prescriptions
+
+- `prescriptions_to_predict.pt`
+  Unlabeled prediction graph tensor generated from the Excel input
+
+- `prescription_prediction_outputs.tsv`
+  Prediction probabilities and graph embeddings exported from the prediction script
+
+- `prescription_attention_weights.tsv`
+  Edge-level attention weights exported from the prediction script
 
 ## Source Tables
 
-- `Test_input.xlsx`
-  Main structured input workbook used by the graph-construction notebook
+- `UHF_UHP.tsv`
+  Full formula-to-herbal-piece relation table for the 480-formula corpus
+
+- `UHF_TCMT.tsv`
+  Formula-to-terminology mapping used in the original training context
+
+- `UHP_Encoder.tsv`
+  Herb-level encoded node features
+
+- `UHP_Medicinal_properties_encode.tsv`
+  Herb-to-medicinal-property edge table
 
 - `Uighur_herbal_formulas.tsv`
-  Formula-level structured table for Uyghur medicine prescriptions
+  Formula metadata table
 
 - `Uighur_herbal_pieces.tsv`
   Herbal piece metadata table
 
-- `UHF_UHP.tsv`
-  Formula-to-herbal-piece relationship table used in graph construction
-
-- `UHF_TCMT.tsv`
-  Formula-to-terminology / therapeutic mapping table
-
-- `UHP_Medicinal_properties_encode.tsv`
-  Encoded medicinal-property table for herbal pieces
-
-- `UHP_Encoder.tsv`
-  Combined herbal feature table used during graph embedding
-
-## Generated Artifacts
+## Legacy Compatibility Files
 
 - `all_graphs_to_be_predicted.pt`
-  Committed graph tensor used directly by the original training notebooks and preserved for repository-level training reproduction
+  Legacy filename retained for the original notebooks; do not use this as the canonical training or prediction filename in new documentation
 
-- `gat_model.pth`
-  Saved model weights from the original stored training workflow
+- `Test_input.xlsx`
+  Legacy example input filename retained for the original notebook workflow
 
 - `prediction_outputs.tsv`
-  Formula-level model predictions exported from the stored project run
-
 - `attention_weights.tsv`
-  Raw edge-level attention weights exported from the stored project run
-
 - `attention_averages.tsv`
-  Layer-wise averaged attention values derived from the stored project run
-
 - `calculated_attention_weights.tsv`
-  Propagated compatibility scores aggregated across multiple attention layers from the stored project run
+  Stored outputs from the earlier notebook-based workflow
 
 ## Usage Notes
 
-- The notebooks in `../Python/` expect this folder at exactly `../Data`
-- Some files are intermediate outputs and may be overwritten during reruns
-- Keep the source tables and stored artifacts unchanged if exact reproduction of the current repository version is required
-- The current repository already includes the key `.pt` and `.pth` files required to reproduce the original stored training workflow
+- Use the scripts in `../scripts/` for the clearer Excel -> graph -> prediction pipeline
+- Use `training_graphs_with_labels.pt` when referring to the labeled graph tensor for training / validation
+- Use `prescriptions_to_predict.pt` when referring to the unlabeled graph tensor for inference
+- The legacy files are still kept so the original notebooks remain understandable

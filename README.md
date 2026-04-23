@@ -1,16 +1,8 @@
 # GraphAI for Uyghur Medicine
 
-This repository documents the current project version for graph-based modeling of Uyghur medicine prescriptions.
+This repository documents the current graph-based modeling workflow for Uyghur medicine prescriptions.
 
-It contains the core notebooks, structured input tables, the original training graph tensor, one previously trained GAT model, exported attention files, and example figures from the earlier completed project workflow. The purpose of this repository is to present the project clearly and preserve the working version that has already been run.
-
-This repository currently focuses on:
-
-- the original notebook workflow
-- the original training notebooks retained in `Python/`
-- the committed training graph tensor used by the original training notebooks
-- the existing trained model and exported artifacts already produced in the project
-- project introduction, file organization, and reproducibility notes
+It preserves the original notebooks, the previously trained GAT model, the stored training graph tensor, and a clearer prediction pipeline for user-provided prescription input.
 
 It does not aim to present the later paper-upgrade experiments or any newly retrained version.
 
@@ -19,32 +11,44 @@ It does not aim to present the later paper-upgrade experiments or any newly retr
 ## Project Overview
 
 - Graph construction from structured Uyghur medicine prescription tables
-- Graph Attention Network inference for prescription-level prediction
-- Multi-layer attention tracing for interpretable compatibility quantification
+- GAT-based prescription-level prediction
+- Multi-layer attention tracing for compatibility interpretation
 - Heatmap-based visualization of propagated herbal influence
+
+## Key Clarification
+
+This repository contains two different graph use cases:
+
+1. Training / validation graphs  
+   Canonical file: `Data/training_graphs_with_labels.pt`
+
+2. Prediction graphs generated from user input  
+   Canonical file: `Data/prescriptions_to_predict.pt`
+
+The old filename `Data/all_graphs_to_be_predicted.pt` is retained only as a legacy compatibility artifact for the original notebooks. It should not be used as the canonical name when describing the project in methods or documentation.
+
+For the detailed logic split, see [WORKFLOW_LOGIC.md](./WORKFLOW_LOGIC.md).
 
 ## Repository Structure
 
 ```text
 GraphAI-for-Uyghur-Medicine/
 +-- Data/
-|   +-- Test_input.xlsx
-|   +-- Uighur_herbal_formulas.tsv
-|   +-- Uighur_herbal_pieces.tsv
+|   +-- example_prescription_input.xlsx
+|   +-- prescriptions_to_predict.pt
+|   +-- training_graphs_with_labels.pt
+|   +-- gat_model.pth
+|   +-- prescription_prediction_outputs.tsv
+|   +-- prescription_attention_weights.tsv
 |   +-- UHF_UHP.tsv
 |   +-- UHF_TCMT.tsv
 |   +-- UHP_Encoder.tsv
 |   +-- UHP_Medicinal_properties_encode.tsv
-|   +-- all_graphs_to_be_predicted.pt
-|   +-- gat_model.pth
-|   +-- prediction_outputs.tsv
-|   +-- attention_weights.tsv
-|   +-- attention_averages.tsv
-|   `-- calculated_attention_weights.tsv
+|   `-- ...
 +-- Figure/
 +-- Python/
-+-- requirements.txt
-+-- requirements-minimal.txt
++-- scripts/
++-- WORKFLOW_LOGIC.md
 `-- README.md
 ```
 
@@ -55,59 +59,70 @@ Directory notes:
 - [Figure/README.md](./Figure/README.md)
 - [PROJECT_SCOPE.md](./PROJECT_SCOPE.md)
 - [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)
+- [WORKFLOW_LOGIC.md](./WORKFLOW_LOGIC.md)
 
-## Workflow
+## Recommended Prediction Workflow
 
-1. Run `Python/1_Graph Embedding in UHF.ipynb`
-   This builds graph objects from the structured input table and writes `Data/all_graphs_to_be_predicted.pt`.
+1. Prepare an Excel table with columns:
+   - `CPM_ID`
+   - `CHP_ID`
+   - `Dosage_ratio`
 
-2. Run `Python/2_Prediction Using the GAT Model.ipynb`
-   This loads graph tensors, applies the GAT model, and exports:
-   - `Data/gat_model.pth`
-   - `Data/prediction_outputs.tsv`
-   - `Data/attention_weights.tsv`
+2. Build prediction graphs:
 
-3. Run `Python/3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
-   This computes averaged attention, propagates multi-layer attention paths, and writes:
-   - `Data/attention_averages.tsv`
-   - `Data/calculated_attention_weights.tsv`
-   - heatmap PDFs in `Figure/`
+```powershell
+python scripts/generate_prediction_graphs.py --input-excel Data/example_prescription_input.xlsx --output-pt Data/prescriptions_to_predict.pt
+```
 
-Original training workflow:
+3. Run GAT prediction:
 
-- `Python/中药方剂-中医证候-多层注意力模型.ipynb`
-  This notebook trains from the committed graph tensor `Data/all_graphs_to_be_predicted.pt` and writes model weights plus training metrics.
+```powershell
+python scripts/run_gat_prediction.py --graph-pt Data/prescriptions_to_predict.pt --model-path Data/gat_model.pth --prediction-output Data/prescription_prediction_outputs.tsv --attention-output Data/prescription_attention_weights.tsv
+```
 
-- `Python/超参数优化-中药方剂-中医证候-多层注意力模型.ipynb`
-  This notebook performs hyperparameter search on the same committed graph tensor.
+4. Read results:
+   - `Data/prescription_prediction_outputs.tsv`
+   - `Data/prescription_attention_weights.tsv`
+
+## Legacy Notebook Workflow
+
+The original notebooks are preserved in `Python/`.
+
+- `1_Graph Embedding in UHF.ipynb`
+  Builds prediction-style graphs from `Test_input.xlsx`
+
+- `2_Prediction Using the GAT Model.ipynb`
+  Loads graphs and exports probabilities plus raw attention values
+
+- `3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
+  Aggregates attention into compatibility scores and heatmaps
+
+The original training-related notebooks are also retained in `Python/` as historical project materials.
 
 ## Current Repository Scope
 
-- `Data/all_graphs_to_be_predicted.pt` is the committed training graph tensor used by the original training notebooks.
-- `Data/gat_model.pth` is the committed trained model paired with this stored project version.
-- `Data/prediction_outputs.tsv`, `Data/attention_weights.tsv`, `Data/attention_averages.tsv`, and `Data/calculated_attention_weights.tsv` are existing exported outputs from the earlier completed workflow.
-- `Python/中药方剂-中医证候-多层注意力模型.ipynb` and `Python/超参数优化-中药方剂-中医证候-多层注意力模型.ipynb` are included as the original training-related notebooks from the project workspace.
-- The repository currently serves as a stable project snapshot rather than a benchmark-report repository.
-
-For a more explicit boundary statement, see [PROJECT_SCOPE.md](./PROJECT_SCOPE.md).
-For reproduction notes, see [REPRODUCIBILITY.md](./REPRODUCIBILITY.md).
+- `Data/training_graphs_with_labels.pt` is the canonical labeled tensor for the stored training/validation workflow
+- `Data/gat_model.pth` is the previously trained model artifact
+- `Data/example_prescription_input.xlsx` is an example user input table
+- `Data/prescriptions_to_predict.pt` is the canonical unlabeled tensor for prediction
+- `Data/prescription_prediction_outputs.tsv` and `Data/prescription_attention_weights.tsv` are generated from the example prediction path
+- Existing legacy outputs are still preserved from the earlier stored workflow
 
 ## Environment
 
 Two dependency files are included:
 
 - `requirements.txt`
-  Full local environment snapshot including Jupyter and notebook tooling
+  Full local environment snapshot including notebook tooling
 
 - `requirements-minimal.txt`
-  Minimal dependency set for running the core notebooks
+  Minimal dependency set for running the graph and prediction scripts
 
 Recommended runtime:
 
 - Python 3.10+
 - PyTorch 2.7.x
 - Torch Geometric 2.6.x
-- CPU or GPU with matching PyTorch build
 
 Example setup:
 
@@ -117,34 +132,6 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements-minimal.txt
 ```
-
-## Key Files
-
-Inputs:
-
-- `Data/Test_input.xlsx`
-- `Data/Uighur_herbal_formulas.tsv`
-- `Data/Uighur_herbal_pieces.tsv`
-- `Data/UHF_UHP.tsv`
-- `Data/UHF_TCMT.tsv`
-- `Data/UHP_Encoder.tsv`
-- `Data/UHP_Medicinal_properties_encode.tsv`
-
-Generated artifacts:
-
-- `Data/all_graphs_to_be_predicted.pt`
-- `Data/gat_model.pth`
-- `Data/prediction_outputs.tsv`
-- `Data/attention_weights.tsv`
-- `Data/attention_averages.tsv`
-- `Data/calculated_attention_weights.tsv`
-
-## Reproducibility Notes
-
-- Execute notebooks from within the `Python/` directory
-- Preserve the relative path from `Python/` to `../Data`
-- The repository includes the original training graph tensor and the original training notebooks for peer reproduction
-- The repository currently favors direct reproducibility over packaging; it is not yet organized as a CLI tool or Python package
 
 ## Citation
 
