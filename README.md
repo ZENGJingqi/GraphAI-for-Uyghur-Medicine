@@ -1,8 +1,12 @@
 # GraphAI for Uyghur Medicine
 
-GraphAI for Uyghur Medicine is a notebook-based repository for graph construction, pretrained inference, compatibility interpretation, and model training in Uyghur medicine prescriptions.
+Author: Zeng Jingqi  
+Contact: zjingqi@163.com  
+Project update: April 2026
 
-This repository keeps the original project assets and follows the same notebook-driven organization used in `GraphAI-for-TCM`, while keeping the current Uyghur medicine project separate from a finalized paper release.
+GraphAI for Uyghur Medicine is a graph-based workflow for modeling and interpreting compatibility mechanisms in Uyghur medicine prescriptions.
+
+This repository keeps the current project assets for graph construction, pretrained inference, mechanism interpretation, and reproducible model training. Its organization follows the same general design used in `GraphAI-for-TCM`, while remaining separate from a finalized paper release.
 
 ![Project Overview](Figure/Graphic_abstract.png)
 
@@ -59,10 +63,10 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Launch Jupyter Lab from the repository root:
+Launch Jupyter from the repository root:
 
 ```powershell
-jupyter lab
+jupyter notebook
 ```
 
 ## Recommended Notebook Order

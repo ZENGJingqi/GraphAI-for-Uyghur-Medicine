@@ -1,6 +1,6 @@
 # Python Folder Overview
 
-The Python directory contains the notebook-based workflow for graph construction, pretrained inference, interpretation, and training experiments in GraphAI for Uyghur Medicine.
+The Python directory contains the notebook workflow for graph construction, pretrained inference, mechanism interpretation, and training experiments in GraphAI for Uyghur Medicine.
 
 ## Recommended Notebook Order
 
