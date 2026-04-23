@@ -21,7 +21,7 @@ The repository also keeps:
 - `Data/gat_model.pth`: pretrained GAT model weights
 - the original source tables in `Data/`
 - the notebook workflow in `Python/`
-- a compact example figure set in `Figure/`
+- the project overview image in `Figure/`
 
 Generated prediction tables and temporary evaluation outputs are not stored in the repository.
 
