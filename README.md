@@ -2,52 +2,53 @@
 
 This repository documents the current graph-based modeling workflow for Uyghur medicine prescriptions.
 
-It preserves the original notebooks, the previously trained GAT model, the stored training graph tensor, and a clearer prediction pipeline for user-provided prescription input.
-
-It does not aim to present the later paper-upgrade experiments or any newly retrained version.
+It preserves the original project artifacts and also provides an English Python pipeline that makes the training side and the sample-prediction side explicit.
 
 ![Project Overview](Figure/Graphic_abstract.png)
 
-## Project Overview
+## What This Repository Now Says Clearly
 
-- Graph construction from structured Uyghur medicine prescription tables
-- GAT-based prescription-level prediction
-- Multi-layer attention tracing for compatibility interpretation
-- Heatmap-based visualization of propagated herbal influence
+There are two different data roles in this project:
 
-## Key Clarification
+1. Full-corpus graph data  
+   This is the graph tensor for all available prescription samples.
 
-This repository contains two different graph use cases:
+2. Sample prediction data  
+   This is a small simulation path used to show how a user can input several prescriptions, generate graphs, and obtain prediction outputs.
 
-1. Training / validation graphs  
-   Canonical file: `Data/training_graphs_with_labels.pt`
+The original file `Data/all_graphs_to_be_predicted.pt` is not a small prediction-only set. It is the full stored graph corpus from the earlier workflow. To make that explicit in English, the repository now also includes:
 
-2. Prediction graphs generated from user input  
-   Canonical file: `Data/prescriptions_to_predict.pt`
+- `Data/full_prescription_graphs_with_labels.pt`
 
-The old filename `Data/all_graphs_to_be_predicted.pt` is retained only as a legacy compatibility artifact for the original notebooks. It should not be used as the canonical name when describing the project in methods or documentation.
-
-For the detailed logic split, see [WORKFLOW_LOGIC.md](./WORKFLOW_LOGIC.md).
+This English-named file is aligned with the legacy full-corpus `.pt` file.
 
 ## Repository Structure
 
 ```text
 GraphAI-for-Uyghur-Medicine/
 +-- Data/
-|   +-- example_prescription_input.xlsx
-|   +-- prescriptions_to_predict.pt
-|   +-- training_graphs_with_labels.pt
-|   +-- gat_model.pth
-|   +-- prescription_prediction_outputs.tsv
-|   +-- prescription_attention_weights.tsv
+|   +-- all_graphs_to_be_predicted.pt
+|   +-- full_prescription_graphs_with_labels.pt
 |   +-- UHF_UHP.tsv
 |   +-- UHF_TCMT.tsv
+|   +-- UHF_Cluster_Dummies_Unique.csv
+|   +-- UHF_Label_Matrix.csv
 |   +-- UHP_Encoder.tsv
 |   +-- UHP_Medicinal_properties_encode.tsv
-|   `-- ...
+|   +-- sample_prescription_input.xlsx
+|   +-- sample_prediction_graphs.pt
+|   +-- sample_prediction_outputs.tsv
+|   +-- sample_attention_weights.tsv
+|   `-- gat_model.pth
 +-- Figure/
 +-- Python/
-+-- scripts/
+|   +-- build_label_matrix.py
+|   +-- build_full_corpus_graphs.py
+|   +-- build_sample_prediction_graphs.py
+|   +-- run_gat_prediction.py
+|   +-- train_validate_gat.py
+|   +-- graph_pipeline_utils.py
+|   `-- legacy notebooks
 +-- WORKFLOW_LOGIC.md
 `-- README.md
 ```
@@ -61,77 +62,76 @@ Directory notes:
 - [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)
 - [WORKFLOW_LOGIC.md](./WORKFLOW_LOGIC.md)
 
-## Recommended Prediction Workflow
+## English Python Pipeline
 
-1. Prepare an Excel table with columns:
-   - `CPM_ID`
-   - `CHP_ID`
-   - `Dosage_ratio`
-
-2. Build prediction graphs:
+### A. Build the English label matrix
 
 ```powershell
-python scripts/generate_prediction_graphs.py --input-excel Data/example_prescription_input.xlsx --output-pt Data/prescriptions_to_predict.pt
+python Python/build_label_matrix.py
 ```
 
-3. Run GAT prediction:
+This produces:
+
+- `Data/UHF_Label_Matrix.csv`
+
+The label matrix covers all 480 prescriptions. For 6 prescriptions without `UHF_TCMT.tsv` rows, the labels are filled with zeros. That behavior matches the stored labels in the legacy full-corpus `.pt` file.
+
+### B. Build the full graph corpus
 
 ```powershell
-python scripts/run_gat_prediction.py --graph-pt Data/prescriptions_to_predict.pt --model-path Data/gat_model.pth --prediction-output Data/prescription_prediction_outputs.tsv --attention-output Data/prescription_attention_weights.tsv
+python Python/build_full_corpus_graphs.py
 ```
 
-4. Read results:
-   - `Data/prescription_prediction_outputs.tsv`
-   - `Data/prescription_attention_weights.tsv`
+This produces:
 
-## Legacy Notebook Workflow
+- `Data/full_prescription_graphs_with_labels.pt`
 
-The original notebooks are preserved in `Python/`.
+The script preserves the original `CPM_ID` order from the legacy full-corpus `.pt` file so the rebuilt English-named file stays aligned with the stored project version.
 
-- `1_Graph Embedding in UHF.ipynb`
-  Builds prediction-style graphs from `Test_input.xlsx`
-
-- `2_Prediction Using the GAT Model.ipynb`
-  Loads graphs and exports probabilities plus raw attention values
-
-- `3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
-  Aggregates attention into compatibility scores and heatmaps
-
-The original training-related notebooks are also retained in `Python/` as historical project materials.
-
-## Current Repository Scope
-
-- `Data/training_graphs_with_labels.pt` is the canonical labeled tensor for the stored training/validation workflow
-- `Data/gat_model.pth` is the previously trained model artifact
-- `Data/example_prescription_input.xlsx` is an example user input table
-- `Data/prescriptions_to_predict.pt` is the canonical unlabeled tensor for prediction
-- `Data/prescription_prediction_outputs.tsv` and `Data/prescription_attention_weights.tsv` are generated from the example prediction path
-- Existing legacy outputs are still preserved from the earlier stored workflow
-
-## Environment
-
-Two dependency files are included:
-
-- `requirements.txt`
-  Full local environment snapshot including notebook tooling
-
-- `requirements-minimal.txt`
-  Minimal dependency set for running the graph and prediction scripts
-
-Recommended runtime:
-
-- Python 3.10+
-- PyTorch 2.7.x
-- Torch Geometric 2.6.x
-
-Example setup:
+### C. Train or evaluate the GAT model
 
 ```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements-minimal.txt
+python Python/train_validate_gat.py --mode evaluate-existing
 ```
+
+or
+
+```powershell
+python Python/train_validate_gat.py --mode train
+```
+
+### D. Run a sample prediction simulation
+
+```powershell
+python Python/build_sample_prediction_graphs.py
+python Python/run_gat_prediction.py
+```
+
+This produces:
+
+- `Data/sample_prediction_graphs.pt`
+- `Data/sample_prediction_outputs.tsv`
+- `Data/sample_attention_weights.tsv`
+
+## Legacy Notebook Material
+
+The repository still keeps the original notebooks for traceability:
+
+- `Python/1_Graph Embedding in UHF.ipynb`
+- `Python/2_Prediction Using the GAT Model.ipynb`
+- `Python/3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
+- `Python/Legacy_Training_Multilayer_GAT.ipynb`
+- `Python/Legacy_Hyperparameter_Search_Multilayer_GAT.ipynb`
+
+These are preserved as historical project materials. The repository-level Python workflow is now expressed through the English `.py` files.
+
+## Current Scope
+
+- The repository preserves the original stored full-corpus graph data
+- The repository includes the previously trained GAT weights
+- The repository now explains the label source explicitly
+- The repository now includes an English sample-prediction path
+- The repository does not try to present later upgraded experiments or a final paper package
 
 ## Citation
 

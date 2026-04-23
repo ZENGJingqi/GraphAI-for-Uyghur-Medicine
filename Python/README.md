@@ -1,35 +1,33 @@
-# Notebook Guide
+# Python Directory Guide
 
-This folder preserves the original notebook workflow.
+This folder now contains English Python entry points for the repository workflow.
 
-For a clearer production-style path, prefer the scripts in `../scripts/`.
+## Core English Python Files
 
-## Main Notebook Roles
+- `graph_pipeline_utils.py`
+  Shared graph-building and GAT-model utilities.
 
-1. `1_Graph Embedding in UHF.ipynb`
-   Builds prediction-style graphs from the legacy example input table
+- `build_label_matrix.py`
+  Builds the English 4-class label matrix for all prescriptions.
 
-2. `2_Prediction Using the GAT Model.ipynb`
-   Loads graphs, applies the GAT model, and exports predictions plus attention values
+- `build_full_corpus_graphs.py`
+  Builds the full labeled graph corpus.
 
-3. `3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
-   Aggregates attention and generates compatibility heatmaps
+- `build_sample_prediction_graphs.py`
+  Builds sample prediction graphs from an Excel input file.
 
-## Additional Historical Notebooks
+- `run_gat_prediction.py`
+  Runs the stored GAT model on sample or user-provided prediction graphs.
 
-- `中药方剂-中医证候-多层注意力模型.ipynb`
-  Original training notebook retained from the project workspace
+- `train_validate_gat.py`
+  Trains a new model or evaluates the stored model on the full corpus.
 
-- `超参数优化-中药方剂-中医证候-多层注意力模型.ipynb`
-  Original hyperparameter-search notebook retained from the project workspace
+## Legacy Notebooks
 
-- `Start_Jupyter.bat`
-  Local helper launcher retained with the original notebook workflow
+- `1_Graph Embedding in UHF.ipynb`
+- `2_Prediction Using the GAT Model.ipynb`
+- `3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
+- `Legacy_Training_Multilayer_GAT.ipynb`
+- `Legacy_Hyperparameter_Search_Multilayer_GAT.ipynb`
 
-## Scope Note
-
-- These notebooks are preserved as historical project code
-- They still use some legacy filenames such as `all_graphs_to_be_predicted.pt`
-- For new documentation, use the canonical distinction described in `../WORKFLOW_LOGIC.md`
-
-For a file-by-file dependency view, see [NOTEBOOK_IO.md](./NOTEBOOK_IO.md).
+These notebooks are kept for historical traceability. The repository-level code path is now defined by the English `.py` files above.

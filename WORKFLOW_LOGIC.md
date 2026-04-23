@@ -1,116 +1,80 @@
 # Workflow Logic
 
-This document clarifies the current codebase logic and separates training assets from prediction assets.
+This document clarifies the repository logic in plain terms.
 
-## 1. What the repository currently contains
+## 1. Full-corpus graph data
 
-There are two different graph-generation use cases in this project:
+The project already has a stored graph tensor for all available prescription samples:
 
-1. Training / validation graphs  
-   These are the labeled graphs used to fit and validate the GAT model.
+- `Data/all_graphs_to_be_predicted.pt`
 
-2. Prediction graphs  
-   These are unlabeled graphs generated from a user-provided prescription table for inference.
+Despite the filename, this file is the full sample corpus, not a small prediction-only tensor.
 
-The earlier repository mixed these two responsibilities under the single filename `all_graphs_to_be_predicted.pt`. That filename is not precise enough for a reproducible workflow, because the training notebooks require labeled graphs while the prediction workflow should use unlabeled graphs.
+To make that explicit in English, the repository also includes:
 
-## 2. Current data roles
+- `Data/full_prescription_graphs_with_labels.pt`
 
-- `Data/UHF_UHP.tsv`
-  Full formula-to-herbal-piece table for the 480-formula corpus.
+These two files represent the same full-corpus role.
 
-- `Data/UHF_TCMT.tsv`
-  Formula-to-terminology mapping used in the original training context.
+## 2. Label source
 
-- `Data/training_graphs_with_labels.pt`
-  Canonical labeled graph tensor for training and validation.
+The model predicts 4 classes:
 
-- `Data/example_prescription_input.xlsx`
-  Example Excel file showing the expected user input format for prediction.
+- `Class_1`
+- `Class_2`
+- `Class_3`
+- `Class_4`
 
-- `Data/prescriptions_to_predict.pt`
-  Canonical unlabeled graph tensor generated from the prediction Excel input.
+The original label source is:
 
-- `Data/gat_model.pth`
-  Previously trained GAT weights.
+- `Data/UHF_Cluster_Dummies_Unique.csv`
 
-## 3. Code responsibilities
+The English normalized label file is:
 
-### A. Graph construction for prediction
+- `Data/UHF_Label_Matrix.csv`
 
-Script:
-- `scripts/generate_prediction_graphs.py`
+Important detail:
 
-Input:
-- Excel table with columns `CPM_ID`, `CHP_ID`, `Dosage_ratio`
-- `UHP_Encoder.tsv`
-- `UHP_Medicinal_properties_encode.tsv`
+- The legacy cluster file has 474 labeled prescriptions.
+- 6 prescriptions have no `UHF_TCMT.tsv` rows.
+- Those 6 prescriptions are assigned zero labels in the normalized matrix.
+- That zero-filled behavior matches the labels already stored in the legacy full-corpus `.pt` file.
 
-Output:
-- `prescriptions_to_predict.pt`
+## 3. Training and validation logic
 
-Logic:
-- Build one graph per prescription (`CPM_ID`)
-- Use herb encoder features as actual-node features
-- Append dosage ratio as the last node feature
-- Add four virtual medicinal-property nodes
-- Connect herbs to virtual nodes using encoded medicinal properties
-- Export an unlabeled PyTorch Geometric graph list
+The training side does not use a separate stored training-only `.pt` file.
 
-### B. Prediction
+Instead:
 
-Script:
-- `scripts/run_gat_prediction.py`
+1. Start from the full-corpus graph tensor
+2. Split it into train and validation subsets
+3. Train or evaluate the GAT model
 
-Input:
-- `prescriptions_to_predict.pt`
-- `gat_model.pth`
+English entry point:
 
-Outputs:
-- graph-level probabilities
-- graph embeddings
-- edge-level attention weights
+- `Python/train_validate_gat.py`
 
-Logic:
-- Load the stored GAT architecture
-- Apply sigmoid to 4 output logits
-- Export `Class_1` to `Class_4` probabilities
-- Export graph embedding dimensions `hg_1 ...`
-- Export attention weights layer by layer and head by head
+## 4. Sample prediction logic
 
-### C. Compatibility quantification
+The repository also contains a small simulation path:
 
-Legacy notebook:
-- `Python/3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
+1. Input several prescriptions in Excel format
+2. Convert them into graphs
+3. Run the stored model
+4. Export probabilities and attention weights
 
-Role:
-- Aggregate raw attention values
-- Produce propagated compatibility weights
-- Save heatmaps as PDF
+Files:
 
-## 4. Important distinction
+- `Data/sample_prescription_input.xlsx`
+- `Data/sample_prediction_graphs.pt`
+- `Data/sample_prediction_outputs.tsv`
+- `Data/sample_attention_weights.tsv`
 
-`Python/1_Graph Embedding in UHF.ipynb` is a prediction-style graph builder because it reads `Test_input.xlsx`.
+English entry points:
 
-It is not the canonical full-corpus training graph builder, even though the old repository state temporarily used the filename `all_graphs_to_be_predicted.pt` for the labeled 480-graph training tensor.
+- `Python/build_sample_prediction_graphs.py`
+- `Python/run_gat_prediction.py`
 
-## 5. Recommended practical workflow
+## 5. Legacy notebooks
 
-1. Prepare an Excel file with columns:
-   - `CPM_ID`
-   - `CHP_ID`
-   - `Dosage_ratio`
-2. Run `scripts/generate_prediction_graphs.py`
-3. Run `scripts/run_gat_prediction.py`
-4. Read:
-   - `prescription_prediction_outputs.tsv`
-   - `prescription_attention_weights.tsv`
-
-## 6. Legacy compatibility note
-
-The legacy filename `all_graphs_to_be_predicted.pt` is retained only for backward compatibility with the original notebooks.
-
-For future development and paper-facing descriptions, the canonical distinction should be:
-
-- `training_graphs_with_labels.pt`
-- `prescriptions_to_predict.pt`
+The repository still keeps the historical notebooks for traceability, but the repository-level code path is now expressed through English `.py` files.

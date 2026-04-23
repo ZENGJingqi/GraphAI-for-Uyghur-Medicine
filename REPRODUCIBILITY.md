@@ -4,58 +4,56 @@ This file summarizes the minimum set of files and steps required to reproduce th
 
 ## Core Stored Artifacts
 
-### Training / validation side
+### Full-corpus side
 
-- `Data/training_graphs_with_labels.pt`
-  Canonical labeled graph tensor for the stored training workflow
+- `Data/all_graphs_to_be_predicted.pt`
+  Legacy stored full-corpus graph tensor.
+
+- `Data/full_prescription_graphs_with_labels.pt`
+  English-named full-corpus graph tensor aligned with the legacy stored file.
 
 - `Data/gat_model.pth`
-  Previously trained GAT model artifact
+  Previously trained GAT model weights.
 
-### Prediction side
+### Label side
 
-- `Data/example_prescription_input.xlsx`
-  Example prescription input file
+- `Data/UHF_Cluster_Dummies_Unique.csv`
+  Original legacy cluster dummy file.
 
-- `Data/prescriptions_to_predict.pt`
-  Graph tensor generated from the example Excel input
+- `Data/UHF_Label_Matrix.csv`
+  English label matrix for all 480 prescriptions.
 
-- `Data/prescription_prediction_outputs.tsv`
-  Prediction output exported from the stored example prediction run
+### Sample prediction side
 
-- `Data/prescription_attention_weights.tsv`
-  Attention output exported from the stored example prediction run
+- `Data/sample_prescription_input.xlsx`
+- `Data/sample_prediction_graphs.pt`
+- `Data/sample_prediction_outputs.tsv`
+- `Data/sample_attention_weights.tsv`
 
 ## Reproduction Paths
 
-There are three practical reproduction paths:
+### 1. Full-corpus reconstruction
 
-1. Artifact-based inspection  
-   Use the committed `.pt`, `.pth`, and `.tsv` files directly.
+```powershell
+python Python/build_label_matrix.py
+python Python/build_full_corpus_graphs.py
+```
 
-2. Script-based prediction reproduction  
-   Recreate the prediction path from Excel input:
+### 2. Stored-model evaluation
 
-   ```powershell
-   python scripts/generate_prediction_graphs.py --input-excel Data/example_prescription_input.xlsx --output-pt Data/prescriptions_to_predict.pt
-   python scripts/run_gat_prediction.py --graph-pt Data/prescriptions_to_predict.pt --model-path Data/gat_model.pth --prediction-output Data/prescription_prediction_outputs.tsv --attention-output Data/prescription_attention_weights.tsv
-   ```
+```powershell
+python Python/train_validate_gat.py --mode evaluate-existing
+```
 
-3. Legacy notebook rerun reproduction  
-   Re-execute the notebooks in order from `Python/`:
-   - `1_Graph Embedding in UHF.ipynb`
-   - `2_Prediction Using the GAT Model.ipynb`
-   - `3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
+### 3. Sample prediction simulation
 
-## Expected Folder Assumptions
+```powershell
+python Python/build_sample_prediction_graphs.py
+python Python/run_gat_prediction.py
+```
 
-- Run notebooks from the `Python/` directory
-- Keep `Data/` at exactly `../Data`
-- Keep `Figure/` at exactly `../Figure` when generating visual outputs
+## Important Clarification
 
-## Important Scope Note
-
-- `training_graphs_with_labels.pt` is the canonical labeled tensor for training / validation
-- `prescriptions_to_predict.pt` is the canonical unlabeled tensor for inference
-- `all_graphs_to_be_predicted.pt` is retained only as a legacy filename for compatibility with the original notebooks
-- This guide applies to the current repository snapshot only
+- The earlier file `all_graphs_to_be_predicted.pt` is the full stored graph corpus.
+- Training and validation are created later by splitting this full corpus.
+- The sample prediction path is only a small simulation path for demonstrating the Excel -> graph -> prediction flow.

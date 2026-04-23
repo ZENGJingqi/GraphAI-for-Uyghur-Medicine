@@ -4,42 +4,26 @@ This file defines what the current repository version is intended to represent.
 
 ## What This Repository Includes
 
-- The original notebook-based workflow for graph construction, GAT inference, and compatibility quantification
-- A clearer script-based prediction path from Excel input to graph tensor to model output
-- The structured data tables used by that workflow
+- The original notebook-based workflow
+- An English Python workflow for label preparation, graph construction, sample prediction, and training/evaluation
+- The stored full-corpus graph tensor for all samples
+- An English label matrix for the 4 output classes
 - One previously generated model file: `Data/gat_model.pth`
-- A canonical labeled training tensor: `Data/training_graphs_with_labels.pt`
-- A canonical prediction tensor: `Data/prescriptions_to_predict.pt`
-- Existing exported outputs from the earlier completed run:
-  - `Data/prediction_outputs.tsv`
-  - `Data/attention_weights.tsv`
-  - `Data/attention_averages.tsv`
-  - `Data/calculated_attention_weights.tsv`
-- Example prediction outputs from the script-based path:
-  - `Data/prescription_prediction_outputs.tsv`
-  - `Data/prescription_attention_weights.tsv`
-- Example figures generated from the original project version
+- Stored legacy outputs from the earlier completed run
+- Sample prediction artifacts used for simulation testing
 
 ## What This Repository Does Not Try to Be
 
 - It is not the final paper repository
-- It is not a benchmark-report repository
-- It does not document later upgraded experiments or later retrained models
-- It is not yet packaged as a command-line tool or installable Python package
+- It is not a polished Python package
+- It does not include every later upgraded experiment
+- It does not claim that the sample prediction files are the full corpus
 
 ## Current Purpose
 
 The current purpose of the repository is to:
 
-- introduce the project clearly
-- preserve the original working version
-- expose the notebook workflow and the clearer training/prediction file organization
-- keep the previously completed model artifact and exported interpretability files available
-
-## Recommended Interpretation
-
-If you are reading this repository from GitHub:
-
-- treat it as the current stable project snapshot
-- use it to understand the workflow, files, and existing artifacts
-- do not assume that every later paper-drafting experiment is included here
+- explain the data logic clearly
+- preserve the original stored artifacts
+- provide English Python entry points
+- show how full-corpus training data and sample prediction data differ
