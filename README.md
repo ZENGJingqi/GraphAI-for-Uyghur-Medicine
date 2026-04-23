@@ -2,11 +2,13 @@
 
 This repository documents the current project version for graph-based modeling of Uyghur medicine prescriptions.
 
-It contains the core notebooks, structured input tables, one previously trained GAT model, exported attention files, and example figures from the earlier completed project workflow. The purpose of this repository is to present the project clearly and preserve the working version that has already been run.
+It contains the core notebooks, structured input tables, the original training graph tensor, one previously trained GAT model, exported attention files, and example figures from the earlier completed project workflow. The purpose of this repository is to present the project clearly and preserve the working version that has already been run.
 
 This repository currently focuses on:
 
 - the original notebook workflow
+- the original training notebooks retained in `Python/`
+- the committed training graph tensor used by the original training notebooks
 - the existing trained model and exported artifacts already produced in the project
 - project introduction, file organization, and reproducibility notes
 
@@ -32,6 +34,7 @@ GraphAI-for-Uyghur-Medicine/
 |   +-- UHF_UHP.tsv
 |   +-- UHF_TCMT.tsv
 |   +-- UHP_Encoder.tsv
+|   +-- UHP_Medicinal_properties_encode.tsv
 |   +-- all_graphs_to_be_predicted.pt
 |   +-- gat_model.pth
 |   +-- prediction_outputs.tsv
@@ -70,11 +73,20 @@ Directory notes:
    - `Data/calculated_attention_weights.tsv`
    - heatmap PDFs in `Figure/`
 
+Original training workflow:
+
+- `Python/中药方剂-中医证候-多层注意力模型.ipynb`
+  This notebook trains from the committed graph tensor `Data/all_graphs_to_be_predicted.pt` and writes model weights plus training metrics.
+
+- `Python/超参数优化-中药方剂-中医证候-多层注意力模型.ipynb`
+  This notebook performs hyperparameter search on the same committed graph tensor.
+
 ## Current Repository Scope
 
-- `Data/gat_model.pth` is the previously generated model artifact kept with this project version.
-- `Data/all_graphs_to_be_predicted.pt` and `Data/gat_model.pth` are committed repository artifacts for reproducing the current stored version.
+- `Data/all_graphs_to_be_predicted.pt` is the committed training graph tensor used by the original training notebooks.
+- `Data/gat_model.pth` is the committed trained model paired with this stored project version.
 - `Data/prediction_outputs.tsv`, `Data/attention_weights.tsv`, `Data/attention_averages.tsv`, and `Data/calculated_attention_weights.tsv` are existing exported outputs from the earlier completed workflow.
+- `Python/中药方剂-中医证候-多层注意力模型.ipynb` and `Python/超参数优化-中药方剂-中医证候-多层注意力模型.ipynb` are included as the original training-related notebooks from the project workspace.
 - The repository currently serves as a stable project snapshot rather than a benchmark-report repository.
 
 For a more explicit boundary statement, see [PROJECT_SCOPE.md](./PROJECT_SCOPE.md).
@@ -116,6 +128,7 @@ Inputs:
 - `Data/UHF_UHP.tsv`
 - `Data/UHF_TCMT.tsv`
 - `Data/UHP_Encoder.tsv`
+- `Data/UHP_Medicinal_properties_encode.tsv`
 
 Generated artifacts:
 
@@ -130,6 +143,7 @@ Generated artifacts:
 
 - Execute notebooks from within the `Python/` directory
 - Preserve the relative path from `Python/` to `../Data`
+- The repository includes the original training graph tensor and the original training notebooks for peer reproduction
 - The repository currently favors direct reproducibility over packaging; it is not yet organized as a CLI tool or Python package
 
 ## Citation

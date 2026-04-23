@@ -30,26 +30,26 @@ The files in this folder belong to the earlier completed project version that is
 ## Generated Artifacts
 
 - `all_graphs_to_be_predicted.pt`
-  Serialized graph dataset generated from the input tables and committed for reproduction of the stored workflow version
+  Committed graph tensor used directly by the original training notebooks and preserved for repository-level training reproduction
 
 - `gat_model.pth`
-  Saved model weights from the previously completed GAT notebook workflow and committed for repository-level reproduction
+  Saved model weights from the original stored training workflow
 
 - `prediction_outputs.tsv`
-  Formula-level model predictions from the existing stored run
+  Formula-level model predictions exported from the stored project run
 
 - `attention_weights.tsv`
-  Raw edge-level attention weights exported from the existing stored run
+  Raw edge-level attention weights exported from the stored project run
 
 - `attention_averages.tsv`
-  Layer-wise averaged attention values derived from the stored run
+  Layer-wise averaged attention values derived from the stored project run
 
 - `calculated_attention_weights.tsv`
-  Propagated compatibility scores aggregated across multiple attention layers from the stored run
+  Propagated compatibility scores aggregated across multiple attention layers from the stored project run
 
 ## Usage Notes
 
 - The notebooks in `../Python/` expect this folder at exactly `../Data`
 - Some files are intermediate outputs and may be overwritten during reruns
 - Keep the source tables and stored artifacts unchanged if exact reproduction of the current repository version is required
-- The current repository already includes the key `.pt` and `.pth` files required to reproduce the stored workflow version
+- The current repository already includes the key `.pt` and `.pth` files required to reproduce the original stored training workflow

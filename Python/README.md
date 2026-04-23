@@ -19,14 +19,20 @@ The notebooks here correspond to the original working version of the project and
 
 ## Additional Notebooks
 
-- Legacy Chinese-language notebook for model training / inference retained for project reference
-- Legacy Chinese-language notebook for hyperparameter search retained for experiment reference
+- `中药方剂-中医证候-多层注意力模型.ipynb`
+  Original training notebook retained from the project workspace; it trains directly from `../Data/all_graphs_to_be_predicted.pt`
+
+- `超参数优化-中药方剂-中医证候-多层注意力模型.ipynb`
+  Original hyperparameter-search notebook retained from the project workspace; it uses the same committed graph tensor
+
+- `Start_Jupyter.bat`
+  Local helper launcher kept together with the original notebook workflow
 
 ## Scope Note
 
 - This folder describes the original project workflow preserved in the repository.
 - It is not intended to document the later extended experiment pipeline used during subsequent paper drafting.
-- The repository already includes the stored graph tensor file and trained model artifact used in this original workflow version.
+- The repository already includes the training graph tensor file and trained model artifact used in this original workflow version.
 
 ## Important Assumptions
 
