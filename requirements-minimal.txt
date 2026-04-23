@@ -1,0 +1,12 @@
+gensim
+matplotlib
+networkx
+numpy
+openpyxl
+pandas
+scikit-learn
+scipy
+torch
+torch-geometric
+tqdm
+

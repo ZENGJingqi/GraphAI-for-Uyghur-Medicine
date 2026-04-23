@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it using the metadata below."
+title: "Quantifying Compatibility Mechanisms in Uyghur Medicine with Interpretable Graph Neural Networks"
+type: software
+authors:
+  - family-names: "Zeng"
+    given-names: "Jingqi"
+    email: "zjingqi@163.com"
+repository-code: "https://github.com/ZENGJingqi/GraphAI-for-Uyghur-Medicine"
+url: "https://github.com/ZENGJingqi/GraphAI-for-Uyghur-Medicine"
+abstract: "A notebook-based graph learning workflow for modeling and interpreting compatibility mechanisms in Uyghur medicine prescriptions using Graph Attention Networks."
+license: "NOASSERTION"

@@ -1,74 +1,122 @@
-# 📘 Quantifying Compatibility Mechanisms in Uyghur Medicine with Interpretable Graph Neural Networks
+# Quantifying Compatibility Mechanisms in Uyghur Medicine with Interpretable Graph Neural Networks
 
-This project implements a graph-based learning framework to model and interpret compatibility mechanisms in Uyghur traditional medicine prescriptions using **Graph Attention Networks (GATs)**. The system encodes herbal prescriptions into graphs, performs multi-layer attention-based reasoning, and visualizes influence pathways between herbal components.
+This repository contains the code, structured data, trained artifacts, and figures used to model compatibility mechanisms in Uyghur medicine prescriptions with Graph Attention Networks (GATs).
 
----
+The workflow is notebook-first: prescriptions are encoded as graphs, a multi-layer GAT model performs prediction, and attention weights are traced to quantify compatibility relationships between herbal components.
 
-<p align="center">
-  <img src="Figure/Graphic_abstract.png" alt="Graphical Abstract" width="800"/>
-</p>
+![Graphical Abstract](Figure/Graphic_abstract.png)
 
----
+## Overview
 
-## 🧠 Overview
+- Graph construction from structured Uyghur medicine prescription tables
+- Graph Attention Network inference for prescription-level prediction
+- Multi-layer attention tracing for interpretable compatibility quantification
+- Heatmap-based visualization of propagated herbal influence
 
-- Herbal prescriptions are transformed into **heterogeneous graphs** with both actual and virtual nodes.
-- A **4-layer GAT model** is used to extract node-level and graph-level features.
-- Multi-head attention weights are traced and aggregated across layers to interpret the influence of herbs.
-- Results are visualized via **heatmaps** and exported in structured `.tsv` format for further biomedical interpretation.
+## Repository Structure
 
----
+```text
+GraphAI-for-Uyghur-Medicine/
++-- Data/
+|   +-- Test_input.xlsx
+|   +-- Uighur_herbal_formulas.tsv
+|   +-- Uighur_herbal_pieces.tsv
+|   +-- UHF_UHP.tsv
+|   +-- UHF_TCMT.tsv
+|   +-- UHP_Encoder.tsv
+|   +-- all_graphs_to_be_predicted.pt
+|   +-- gat_model.pth
+|   +-- prediction_outputs.tsv
+|   +-- attention_weights.tsv
+|   +-- attention_averages.tsv
+|   `-- calculated_attention_weights.tsv
++-- Figure/
++-- Python/
++-- requirements.txt
++-- requirements-minimal.txt
+`-- README.md
+```
 
-### Recommended Environment
+Directory notes:
+
+- [Data/README.md](./Data/README.md)
+- [Python/README.md](./Python/README.md)
+
+## Workflow
+
+1. Run `Python/1_Graph Embedding in UHF.ipynb`
+   This builds graph objects from the structured input table and writes `Data/all_graphs_to_be_predicted.pt`.
+
+2. Run `Python/2_Prediction Using the GAT Model.ipynb`
+   This loads graph tensors, applies the GAT model, and exports:
+   - `Data/gat_model.pth`
+   - `Data/prediction_outputs.tsv`
+   - `Data/attention_weights.tsv`
+
+3. Run `Python/3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
+   This computes averaged attention, propagates multi-layer attention paths, and writes:
+   - `Data/attention_averages.tsv`
+   - `Data/calculated_attention_weights.tsv`
+   - heatmap PDFs in `Figure/`
+
+## Environment
+
+Two dependency files are included:
+
+- `requirements.txt`
+  Full local environment snapshot including Jupyter and notebook tooling
+
+- `requirements-minimal.txt`
+  Minimal dependency set for running the core notebooks
+
+Recommended runtime:
+
 - Python 3.10+
-- PyTorch 2.7.1 (tested with CPU version; GPU version also compatible)
-- Torch Geometric 2.6.1
-- Scikit-learn 1.7.0
-- Numpy 2.3.0
-- Pandas 2.3.0
-- Scipy 1.15.3
-- Matplotlib 3.10.3
-- tqdm 4.67.1
+- PyTorch 2.7.x
+- Torch Geometric 2.6.x
+- CPU or GPU with matching PyTorch build
 
+Example setup:
 
-## 📁 Project Structure
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements-minimal.txt
+```
 
-| Folder          | Contents |
-|-----------------|----------|
-| `Python/`       | Jupyter Notebooks for graph construction, model inference, and compatibility quantification. |
-| `Data/`         | Input datasets, encoded features, trained model, prediction outputs, and attention scores. |
-| `Figure/`       | Heatmaps and graphical abstract for publication and visual analysis. |
+## Key Files
 
----
+Inputs:
 
-## 🔄 Workflow Summary
+- `Data/Test_input.xlsx`
+- `Data/Uighur_herbal_formulas.tsv`
+- `Data/Uighur_herbal_pieces.tsv`
+- `Data/UHF_UHP.tsv`
+- `Data/UHF_TCMT.tsv`
+- `Data/UHP_Encoder.tsv`
 
-1. **Graph Construction** (`1_Graph Embedding in UHF.ipynb`):
-   - Generates graph representations of Uyghur prescriptions.
+Generated artifacts:
 
-2. **Prediction with GAT** (`2_Prediction Using the GAT Model.ipynb`):
-   - Runs multi-label classification and extracts attention weights.
+- `Data/all_graphs_to_be_predicted.pt`
+- `Data/gat_model.pth`
+- `Data/prediction_outputs.tsv`
+- `Data/attention_weights.tsv`
+- `Data/attention_averages.tsv`
+- `Data/calculated_attention_weights.tsv`
 
-3. **Quantitative Analysis** (`3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`):
-   - Traces and aggregates multi-layer attention across paths for interpretability.
+## Reproducibility Notes
 
-4. **Visualization**:
-   - Outputs attention heatmaps for individual prescriptions (`Figure/`).
+- Execute notebooks from within the `Python/` directory
+- Preserve the relative path from `Python/` to `../Data`
+- The repository currently favors direct reproducibility over packaging; it is not yet organized as a CLI tool or Python package
 
----
+## Citation
 
-## 📌 Highlights
+See [CITATION.cff](./CITATION.cff) for repository citation metadata.
 
-- Supports **multi-hop reasoning** through attention propagation.
-- Provides **interpretable outputs** for domain experts (e.g., TCM compatibility analysis).
-- Can be extended for other ethnomedicine or multi-component therapeutic modeling.
+## Contact
 
----
-
-## 📬 Contact
-
-**Jingqi Zeng**  
-📧 Email: [zjingqi@163.com](mailto:zjingqi@163.com)
-
----
+Jingqi Zeng  
+Email: `zjingqi@163.com`
 
