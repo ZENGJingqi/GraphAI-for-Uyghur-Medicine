@@ -2,6 +2,8 @@
 
 This folder contains both source tables and generated artifacts used by the Uyghur medicine GAT workflow.
 
+The files in this folder belong to the earlier completed project version that is currently being preserved in the repository.
+
 ## Source Tables
 
 - `Test_input.xlsx`
@@ -31,23 +33,22 @@ This folder contains both source tables and generated artifacts used by the Uygh
   Serialized graph dataset generated from the input tables
 
 - `gat_model.pth`
-  Saved model weights from the GAT notebook
+  Saved model weights from the previously completed GAT notebook workflow
 
 - `prediction_outputs.tsv`
-  Formula-level model predictions
+  Formula-level model predictions from the existing stored run
 
 - `attention_weights.tsv`
-  Raw edge-level attention weights exported from all GAT layers
+  Raw edge-level attention weights exported from the existing stored run
 
 - `attention_averages.tsv`
-  Layer-wise averaged attention values
+  Layer-wise averaged attention values derived from the stored run
 
 - `calculated_attention_weights.tsv`
-  Propagated compatibility scores aggregated across multiple attention layers
+  Propagated compatibility scores aggregated across multiple attention layers from the stored run
 
 ## Usage Notes
 
 - The notebooks in `../Python/` expect this folder at exactly `../Data`
 - Some files are intermediate outputs and may be overwritten during reruns
-- Keep the source tables unchanged if exact reproduction of the current outputs is required
-
+- Keep the source tables and stored artifacts unchanged if exact reproduction of the current repository version is required

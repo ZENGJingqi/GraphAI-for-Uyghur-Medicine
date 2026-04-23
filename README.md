@@ -1,12 +1,20 @@
-# Quantifying Compatibility Mechanisms in Uyghur Medicine with Interpretable Graph Neural Networks
+# GraphAI for Uyghur Medicine
 
-This repository contains the code, structured data, trained artifacts, and figures used to model compatibility mechanisms in Uyghur medicine prescriptions with Graph Attention Networks (GATs).
+This repository documents the current project version for graph-based modeling of Uyghur medicine prescriptions.
 
-The workflow is notebook-first: prescriptions are encoded as graphs, a multi-layer GAT model performs prediction, and attention weights are traced to quantify compatibility relationships between herbal components.
+It contains the core notebooks, structured input tables, one previously trained GAT model, exported attention files, and example figures from the earlier completed project workflow. The purpose of this repository is to present the project clearly and preserve the working version that has already been run.
 
-![Graphical Abstract](Figure/Graphic_abstract.png)
+This repository currently focuses on:
 
-## Overview
+- the original notebook workflow
+- the existing trained model and exported artifacts already produced in the project
+- project introduction, file organization, and reproducibility notes
+
+It does not aim to present the later paper-upgrade experiments or any newly retrained version.
+
+![Project Overview](Figure/Graphic_abstract.png)
+
+## Project Overview
 
 - Graph construction from structured Uyghur medicine prescription tables
 - Graph Attention Network inference for prescription-level prediction
@@ -58,6 +66,12 @@ Directory notes:
    - `Data/attention_averages.tsv`
    - `Data/calculated_attention_weights.tsv`
    - heatmap PDFs in `Figure/`
+
+## Current Repository Scope
+
+- `Data/gat_model.pth` is the previously generated model artifact kept with this project version.
+- `Data/prediction_outputs.tsv`, `Data/attention_weights.tsv`, `Data/attention_averages.tsv`, and `Data/calculated_attention_weights.tsv` are existing exported outputs from the earlier completed workflow.
+- The repository currently serves as a stable project snapshot rather than a benchmark-report repository.
 
 ## Environment
 
@@ -113,10 +127,9 @@ Generated artifacts:
 
 ## Citation
 
-See [CITATION.cff](./CITATION.cff) for repository citation metadata.
+If you reference the repository before the article title is finalized, cite the repository as software / project material. See [CITATION.cff](./CITATION.cff).
 
 ## Contact
 
 Jingqi Zeng  
 Email: `zjingqi@163.com`
-

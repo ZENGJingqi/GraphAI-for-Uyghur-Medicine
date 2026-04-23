@@ -2,6 +2,8 @@
 
 This repository is organized as a notebook-first workflow.
 
+The notebooks here correspond to the original working version of the project and the existing stored model / output files kept in `../Data`.
+
 ## Execution Order
 
 1. `1_Graph Embedding in UHF.ipynb`
@@ -20,9 +22,13 @@ This repository is organized as a notebook-first workflow.
 - Legacy Chinese-language notebook for model training / inference retained for project reference
 - Legacy Chinese-language notebook for hyperparameter search retained for experiment reference
 
+## Scope Note
+
+- This folder describes the original project workflow preserved in the repository.
+- It is not intended to document the later extended experiment pipeline used during subsequent paper drafting.
+
 ## Important Assumptions
 
 - Run notebooks from within the `Python/` folder
 - The notebooks use relative paths such as `../Data`
 - Output files are written back into `Data/` and `Figure/`
-
