@@ -1,33 +1,33 @@
-# Python Directory Guide
+# Python Folder Overview
 
-This folder contains the necessary English Python workflow files.
+The Python directory contains the notebook-based workflow for graph construction, pretrained inference, interpretation, and training experiments in GraphAI for Uyghur Medicine.
 
-## Core Python Files
+## Recommended Notebook Order
 
-- `graph_pipeline_utils.py`
-  Shared graph-building and GAT utilities.
+For most users, the intended sequence is:
 
-- `build_label_matrix.py`
-  Builds the English label matrix for all prescriptions.
+1. `1_Graph Embedding in Uyghur Formulae.ipynb`  
+   Reads the example input file and builds the graph tensor used for inference.
 
-- `build_full_corpus_graphs.py`
-  Rebuilds the full graph corpus for verification.
+2. `2_Prediction Using the GAT Model.ipynb`  
+   Loads the graph tensor and the pretrained GAT model to generate prediction outputs and attention outputs.
 
-- `build_sample_prediction_graphs.py`
-  Builds prediction graphs from an Excel input file.
+3. `3_Quantitative Evaluation of Compatibility Mechanisms Using the GAT Model.ipynb`  
+   Uses the attention outputs to support compatibility interpretation and figure generation.
 
-- `run_gat_prediction.py`
-  Runs the stored GAT model on prediction graphs.
+## Training Notebook
 
-- `train_validate_gat.py`
-  Trains or evaluates the GAT model on the stored full corpus.
+- `Graph Attention Network.ipynb`  
+  Training and evaluation notebook based on the full labeled graph corpus.
 
-## Legacy Notebooks
+## Hyperparameter Notebook
 
-- `1_Graph Embedding in UHF.ipynb`
-- `2_Prediction Using the GAT Model.ipynb`
-- `3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
-- `Legacy_Training_Multilayer_GAT.ipynb`
-- `Legacy_Hyperparameter_Search_Multilayer_GAT.ipynb`
+- `Hyperparameter Search for GAT.ipynb`  
+  Hyperparameter search notebook for the GAT workflow.
 
-These notebooks are kept only for traceability.
+## Practical Notes
+
+- The workflow is notebook-driven.
+- The stored full corpus is `../Data/full_prescription_graphs_with_labels.pt`.
+- The bundled example inference input is `../Data/Test_input.xlsx`.
+- The bundled example inference graph tensor is `../Data/prediction_graphs_from_input.pt`.

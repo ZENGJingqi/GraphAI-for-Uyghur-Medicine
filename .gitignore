@@ -14,9 +14,11 @@ env/
 # Logs
 *.log
 
+# Generated outputs
+Outputs/
+
 # OS / editor
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
-

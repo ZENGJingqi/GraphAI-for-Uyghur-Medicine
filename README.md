@@ -1,122 +1,94 @@
 # GraphAI for Uyghur Medicine
 
-This repository documents the graph-based modeling workflow for Uyghur medicine prescriptions.
+GraphAI for Uyghur Medicine is a notebook-based repository for graph construction, pretrained inference, compatibility interpretation, and model training in Uyghur medicine prescriptions.
 
-The repository keeps the original stored project artifacts and provides English Python entry points for the main steps.
+This repository keeps the original project assets and follows the same notebook-driven organization used in `GraphAI-for-TCM`, while keeping the current Uyghur medicine project separate from a finalized paper release.
 
 ![Project Overview](Figure/Graphic_abstract.png)
 
-## What Is Stored in the Repository
+## Overview
 
-The key stored full-corpus graph file is:
+The repository contains two different kinds of graph data:
 
-- `Data/full_prescription_graphs_with_labels.pt`
+1. `Data/full_prescription_graphs_with_labels.pt`  
+   This is the full labeled graph corpus for all available samples. It is the dataset used for training and validation splitting.
 
-Despite the filename, this file is the full stored graph corpus for all available samples. Training and validation are created later by splitting this full corpus.
+2. `Data/prediction_graphs_from_input.pt`  
+   This is a small example inference graph tensor generated from `Data/Test_input.xlsx`. It is only used to demonstrate the prediction workflow.
 
-The repository also stores:
+The repository also keeps:
 
-- `Data/gat_model.pth`
-- `Data/UHF_Cluster_Dummies_Unique.csv`
-- `Data/UHF_Label_Matrix.csv`
-- the original source tables
-- the original legacy notebooks
-- English Python workflow files
+- `Data/gat_model.pth`: pretrained GAT model weights
+- the original source tables in `Data/`
+- the notebook workflow in `Python/`
+- a compact example figure set in `Figure/`
 
-## Minimal Repository Structure
+Generated prediction tables and temporary evaluation outputs are not stored in the repository.
+
+## Repository Structure
 
 ```text
 GraphAI-for-Uyghur-Medicine/
 +-- Data/
 |   +-- full_prescription_graphs_with_labels.pt
 |   +-- gat_model.pth
-|   +-- UHF_UHP.tsv
-|   +-- UHF_TCMT.tsv
+|   +-- Test_input.xlsx
+|   +-- prediction_graphs_from_input.pt
 |   +-- UHF_Cluster_Dummies_Unique.csv
 |   +-- UHF_Label_Matrix.csv
-|   +-- UHP_Encoder.tsv
-|   +-- UHP_Medicinal_properties_encode.tsv
-|   `-- Test_input.xlsx
-+-- Python/
-|   +-- build_label_matrix.py
-|   +-- build_full_corpus_graphs.py
-|   +-- build_sample_prediction_graphs.py
-|   +-- run_gat_prediction.py
-|   +-- train_validate_gat.py
-|   +-- graph_pipeline_utils.py
-|   `-- legacy notebooks
+|   `-- source tables
 +-- Figure/
-`-- README.md
++-- Python/
+|   +-- 1_Graph Embedding in Uyghur Formulae.ipynb
+|   +-- 2_Prediction Using the GAT Model.ipynb
+|   +-- 3_Quantitative Evaluation of Compatibility Mechanisms Using the GAT Model.ipynb
+|   +-- Graph Attention Network.ipynb
+|   +-- Hyperparameter Search for GAT.ipynb
+|   `-- README.md
++-- Start_Jupyter.bat
+`-- requirements.txt
 ```
 
-## English Python Workflow
+## Quick Start
 
-### 1. Build the English label matrix
+Create an environment:
 
 ```powershell
-python Python/build_label_matrix.py
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
-This generates `Data/UHF_Label_Matrix.csv`.
-
-Important detail:
-
-- The original cluster dummy file has 474 labeled prescriptions.
-- 6 prescriptions have no `UHF_TCMT.tsv` rows.
-- In the normalized English label matrix, those 6 prescriptions are filled with zero labels.
-- That zero-filled behavior matches the labels already stored inside `full_prescription_graphs_with_labels.pt`.
-
-### 2. Rebuild the full graph corpus for verification
+Launch Jupyter Lab from the repository root:
 
 ```powershell
-python Python/build_full_corpus_graphs.py
+.\Start_Jupyter.bat
 ```
 
-This rebuilds a verification `.pt` file from the source tables and the English label matrix.
+## Recommended Notebook Order
 
-The script preserves the legacy `CPM_ID` order so the rebuilt tensor can be compared directly with the stored full-corpus `.pt` file.
+For most users, the public workflow is:
 
-### 3. Train or evaluate the GAT model
+1. `Python/1_Graph Embedding in Uyghur Formulae.ipynb`
+2. `Python/2_Prediction Using the GAT Model.ipynb`
+3. `Python/3_Quantitative Evaluation of Compatibility Mechanisms Using the GAT Model.ipynb`
 
-```powershell
-python Python/train_validate_gat.py --mode evaluate-existing
-```
+The training notebook is:
 
-or
+- `Python/Graph Attention Network.ipynb`
 
-```powershell
-python Python/train_validate_gat.py --mode train
-```
+The hyperparameter notebook is:
 
-The default full-corpus input is `Data/full_prescription_graphs_with_labels.pt`.
+- `Python/Hyperparameter Search for GAT.ipynb`
 
-### 4. Simulate prediction from an Excel input
+## Notes
 
-```powershell
-python Python/build_sample_prediction_graphs.py --input-excel Data/Test_input.xlsx
-python Python/run_gat_prediction.py --graph-pt Data/prediction_graphs_from_input.pt
-```
+- `full_prescription_graphs_with_labels.pt` is the full training corpus, not a temporary prediction file.
+- `prediction_graphs_from_input.pt` is only a small bundled inference example.
+- The repository currently explains the project and its workflow; it is not a paper-results archive.
 
-This path is for simulation or user-provided prediction input. The generated files are outputs of the workflow, not core stored repository assets.
-
-## Legacy Notebook Material
-
-The repository still keeps the original notebooks for traceability:
-
-- `Python/1_Graph Embedding in UHF.ipynb`
-- `Python/2_Prediction Using the GAT Model.ipynb`
-- `Python/3_Quantitative of Compatibility Mechanisms Using the GAT Model.ipynb`
-- `Python/Legacy_Training_Multilayer_GAT.ipynb`
-- `Python/Legacy_Hyperparameter_Search_Multilayer_GAT.ipynb`
-
-## Reference Files
+## Folder Guides
 
 - [Data/README.md](./Data/README.md)
 - [Python/README.md](./Python/README.md)
-- [PROJECT_SCOPE.md](./PROJECT_SCOPE.md)
-- [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)
-- [WORKFLOW_LOGIC.md](./WORKFLOW_LOGIC.md)
-
-## Citation
-
-If you reference the repository before the article title is finalized, cite the repository as software / project material. See [CITATION.cff](./CITATION.cff).
