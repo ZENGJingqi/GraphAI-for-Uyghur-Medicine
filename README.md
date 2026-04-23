@@ -45,7 +45,6 @@ GraphAI-for-Uyghur-Medicine/
 |   +-- Graph Attention Network.ipynb
 |   +-- Hyperparameter Search for GAT.ipynb
 |   `-- README.md
-+-- Start_Jupyter.bat
 `-- requirements.txt
 ```
 
@@ -63,7 +62,7 @@ pip install -r requirements.txt
 Launch Jupyter Lab from the repository root:
 
 ```powershell
-.\Start_Jupyter.bat
+jupyter lab
 ```
 
 ## Recommended Notebook Order
