@@ -1,59 +1,50 @@
 # Reproducibility Guide
 
-This file summarizes the minimum set of files and steps required to reproduce the current repository version.
+This file summarizes the minimum required steps for reproducing the stored project workflow.
 
 ## Core Stored Artifacts
 
-### Full-corpus side
-
-- `Data/all_graphs_to_be_predicted.pt`
-  Legacy stored full-corpus graph tensor.
-
 - `Data/full_prescription_graphs_with_labels.pt`
-  English-named full-corpus graph tensor aligned with the legacy stored file.
+  Stored full-corpus graph tensor.
 
 - `Data/gat_model.pth`
-  Previously trained GAT model weights.
-
-### Label side
+  Stored GAT model weights.
 
 - `Data/UHF_Cluster_Dummies_Unique.csv`
-  Original legacy cluster dummy file.
+  Original cluster dummy file.
 
 - `Data/UHF_Label_Matrix.csv`
-  English label matrix for all 480 prescriptions.
-
-### Sample prediction side
-
-- `Data/sample_prescription_input.xlsx`
-- `Data/sample_prediction_graphs.pt`
-- `Data/sample_prediction_outputs.tsv`
-- `Data/sample_attention_weights.tsv`
+  English normalized label matrix.
 
 ## Reproduction Paths
 
-### 1. Full-corpus reconstruction
+### 1. Rebuild the English label matrix
 
 ```powershell
 python Python/build_label_matrix.py
+```
+
+### 2. Rebuild the full graph corpus for verification
+
+```powershell
 python Python/build_full_corpus_graphs.py
 ```
 
-### 2. Stored-model evaluation
+### 3. Evaluate the stored model on the stored full corpus
 
 ```powershell
 python Python/train_validate_gat.py --mode evaluate-existing
 ```
 
-### 3. Sample prediction simulation
+### 4. Simulate prediction from an Excel input
 
 ```powershell
-python Python/build_sample_prediction_graphs.py
-python Python/run_gat_prediction.py
+python Python/build_sample_prediction_graphs.py --input-excel Data/Test_input.xlsx
+python Python/run_gat_prediction.py --graph-pt Data/prediction_graphs_from_input.pt
 ```
 
 ## Important Clarification
 
-- The earlier file `all_graphs_to_be_predicted.pt` is the full stored graph corpus.
-- Training and validation are created later by splitting this full corpus.
-- The sample prediction path is only a small simulation path for demonstrating the Excel -> graph -> prediction flow.
+- `full_prescription_graphs_with_labels.pt` is the stored full-corpus graph tensor.
+- Training and validation are created by splitting this full corpus.
+- The prediction-from-Excel path is a generated workflow path, not a separate stored corpus.

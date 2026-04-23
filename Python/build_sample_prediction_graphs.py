@@ -22,7 +22,7 @@ def parse_args():
     )
     parser.add_argument(
         "--input-excel",
-        default=str(repo_root / "Data" / "sample_prescription_input.xlsx"),
+        default=str(repo_root / "Data" / "Test_input.xlsx"),
         help="Excel file with CPM_ID, CHP_ID, Dosage_ratio.",
     )
     parser.add_argument(
@@ -37,8 +37,8 @@ def parse_args():
     )
     parser.add_argument(
         "--output-pt",
-        default=str(repo_root / "Data" / "sample_prediction_graphs.pt"),
-        help="Output PT file for sample prediction graphs.",
+        default=str(repo_root / "Data" / "prediction_graphs_from_input.pt"),
+        help="Output PT file for prediction graphs generated from the Excel input.",
     )
     return parser.parse_args()
 

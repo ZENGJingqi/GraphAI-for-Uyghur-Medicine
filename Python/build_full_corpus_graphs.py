@@ -39,13 +39,13 @@ def parse_args():
     )
     parser.add_argument(
         "--output-pt",
-        default=str(repo_root / "Data" / "full_prescription_graphs_with_labels.pt"),
-        help="Output PT file for the full labeled corpus.",
+        default=str(repo_root / "Data" / "rebuilt_full_corpus_graphs_with_labels.pt"),
+        help="Output PT file for a rebuilt full labeled corpus used for verification.",
     )
     parser.add_argument(
         "--legacy-order-pt",
-        default=str(repo_root / "Data" / "all_graphs_to_be_predicted.pt"),
-        help="Optional legacy PT file used only to preserve the original stored CPM_ID order.",
+        default=str(repo_root / "Data" / "full_prescription_graphs_with_labels.pt"),
+        help="Stored PT file used only to preserve the original stored CPM_ID order.",
     )
     return parser.parse_args()
 

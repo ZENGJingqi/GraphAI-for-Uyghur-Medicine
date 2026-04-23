@@ -1,29 +1,26 @@
 # Project Scope
 
-This file defines what the current repository version is intended to represent.
+This repository is intended to provide a clear, minimal project snapshot.
 
-## What This Repository Includes
+## Included
 
-- The original notebook-based workflow
-- An English Python workflow for label preparation, graph construction, sample prediction, and training/evaluation
-- The stored full-corpus graph tensor for all samples
-- An English label matrix for the 4 output classes
-- One previously generated model file: `Data/gat_model.pth`
-- Stored legacy outputs from the earlier completed run
-- Sample prediction artifacts used for simulation testing
+- The stored full-corpus graph tensor
+- The stored model weights
+- The necessary source tables
+- The original cluster dummy file
+- An English normalized label matrix
+- English Python workflow files
+- Legacy notebooks kept for traceability
 
-## What This Repository Does Not Try to Be
+## Not Included As Core Assets
 
-- It is not the final paper repository
-- It is not a polished Python package
-- It does not include every later upgraded experiment
-- It does not claim that the sample prediction files are the full corpus
+- Temporary training outputs
+- Temporary evaluation outputs
+- Redundant file aliases
+- Convenience launcher files
 
-## Current Purpose
+## Purpose
 
-The current purpose of the repository is to:
-
-- explain the data logic clearly
-- preserve the original stored artifacts
-- provide English Python entry points
-- show how full-corpus training data and sample prediction data differ
+- Explain the workflow clearly
+- Preserve the stored project assets
+- Provide English Python entry points

@@ -45,7 +45,7 @@ def parse_args():
     parser.add_argument(
         "--graph-pt",
         default=str(repo_root / "Data" / "full_prescription_graphs_with_labels.pt"),
-        help="PT file containing the full labeled corpus.",
+        help="PT file containing the stored full labeled corpus.",
     )
     parser.add_argument(
         "--mode",

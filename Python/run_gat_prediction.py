@@ -14,7 +14,7 @@ def parse_args():
     )
     parser.add_argument(
         "--graph-pt",
-        default=str(repo_root / "Data" / "sample_prediction_graphs.pt"),
+        default=str(repo_root / "Data" / "prediction_graphs_from_input.pt"),
         help="PT file containing prediction graphs.",
     )
     parser.add_argument(
@@ -24,12 +24,12 @@ def parse_args():
     )
     parser.add_argument(
         "--prediction-output",
-        default=str(repo_root / "Data" / "sample_prediction_outputs.tsv"),
+        default=str(repo_root / "Data" / "prediction_outputs_from_input.tsv"),
         help="Output TSV for prediction probabilities and graph embeddings.",
     )
     parser.add_argument(
         "--attention-output",
-        default=str(repo_root / "Data" / "sample_attention_weights.tsv"),
+        default=str(repo_root / "Data" / "attention_weights_from_input.tsv"),
         help="Output TSV for edge-level attention weights.",
     )
     parser.add_argument("--start-index", type=int, default=0, help="Start graph index.")
