@@ -32,3 +32,5 @@ The notebooks here correspond to the original working version of the project and
 - Run notebooks from within the `Python/` folder
 - The notebooks use relative paths such as `../Data`
 - Output files are written back into `Data/` and `Figure/`
+
+For a file-by-file dependency view, see [NOTEBOOK_IO.md](./NOTEBOOK_IO.md).

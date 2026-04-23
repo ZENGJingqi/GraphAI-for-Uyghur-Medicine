@@ -49,6 +49,7 @@ Directory notes:
 
 - [Data/README.md](./Data/README.md)
 - [Python/README.md](./Python/README.md)
+- [PROJECT_SCOPE.md](./PROJECT_SCOPE.md)
 
 ## Workflow
 
@@ -72,6 +73,8 @@ Directory notes:
 - `Data/gat_model.pth` is the previously generated model artifact kept with this project version.
 - `Data/prediction_outputs.tsv`, `Data/attention_weights.tsv`, `Data/attention_averages.tsv`, and `Data/calculated_attention_weights.tsv` are existing exported outputs from the earlier completed workflow.
 - The repository currently serves as a stable project snapshot rather than a benchmark-report repository.
+
+For a more explicit boundary statement, see [PROJECT_SCOPE.md](./PROJECT_SCOPE.md).
 
 ## Environment
 
