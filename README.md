@@ -49,7 +49,9 @@ Directory notes:
 
 - [Data/README.md](./Data/README.md)
 - [Python/README.md](./Python/README.md)
+- [Figure/README.md](./Figure/README.md)
 - [PROJECT_SCOPE.md](./PROJECT_SCOPE.md)
+- [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)
 
 ## Workflow
 
@@ -71,10 +73,12 @@ Directory notes:
 ## Current Repository Scope
 
 - `Data/gat_model.pth` is the previously generated model artifact kept with this project version.
+- `Data/all_graphs_to_be_predicted.pt` and `Data/gat_model.pth` are committed repository artifacts for reproducing the current stored version.
 - `Data/prediction_outputs.tsv`, `Data/attention_weights.tsv`, `Data/attention_averages.tsv`, and `Data/calculated_attention_weights.tsv` are existing exported outputs from the earlier completed workflow.
 - The repository currently serves as a stable project snapshot rather than a benchmark-report repository.
 
 For a more explicit boundary statement, see [PROJECT_SCOPE.md](./PROJECT_SCOPE.md).
+For reproduction notes, see [REPRODUCIBILITY.md](./REPRODUCIBILITY.md).
 
 ## Environment
 

@@ -1,0 +1,9 @@
+*.pt binary
+*.pth binary
+*.xlsx binary
+*.pdf binary
+*.png binary
+*.tsv text
+*.md text
+*.ipynb text
+

@@ -30,10 +30,10 @@ The files in this folder belong to the earlier completed project version that is
 ## Generated Artifacts
 
 - `all_graphs_to_be_predicted.pt`
-  Serialized graph dataset generated from the input tables
+  Serialized graph dataset generated from the input tables and committed for reproduction of the stored workflow version
 
 - `gat_model.pth`
-  Saved model weights from the previously completed GAT notebook workflow
+  Saved model weights from the previously completed GAT notebook workflow and committed for repository-level reproduction
 
 - `prediction_outputs.tsv`
   Formula-level model predictions from the existing stored run
@@ -52,3 +52,4 @@ The files in this folder belong to the earlier completed project version that is
 - The notebooks in `../Python/` expect this folder at exactly `../Data`
 - Some files are intermediate outputs and may be overwritten during reruns
 - Keep the source tables and stored artifacts unchanged if exact reproduction of the current repository version is required
+- The current repository already includes the key `.pt` and `.pth` files required to reproduce the stored workflow version

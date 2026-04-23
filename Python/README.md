@@ -26,6 +26,7 @@ The notebooks here correspond to the original working version of the project and
 
 - This folder describes the original project workflow preserved in the repository.
 - It is not intended to document the later extended experiment pipeline used during subsequent paper drafting.
+- The repository already includes the stored graph tensor file and trained model artifact used in this original workflow version.
 
 ## Important Assumptions
 
